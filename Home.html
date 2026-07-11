@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Matrix Terminal</title>
+    <style>
+        /* إعدادات الصفحة الأساسية لتغطية الشاشة بالكامل باللون الأسود */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000000;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* لوحة الرسم (Canvas) الخاصة بالأرقام المتساقطة خلف النص */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; /* جعلها في الخلفية */
+        }
+
+        /* حاوية النص الأخضر في المنتصف */
+        .message-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2; /* جعلها فوق الأرقام المتساقطة */
+            text-align: center;
+            padding: 30px 50px;
+            background-color: rgba(0, 0, 0, 0.85); /* خلفية سوداء شفافة لتوضيح النص */
+            border: 3px solid #00ff00;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+        }
+
+        /* ستايل نص النجاح وتأثير التوهج الرقمي */
+        .success-text {
+            color: #00ff00;
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #00ff00, 0 0 25px #00ff00;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- خلفية الأرقام المتساقطة (الماتريكس) -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- الرسالة التي في المنتصف -->
+    <div class="message-container">
+        <h1 class="success-text">Task Success</h1>
+    </div>
+
+    <script>
+        // تفعيل كود الماتريكس لتساقط الأرقام بشكل لا نهائي
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // ضبط حجم لوحة الرسم لتناسب حجم الشاشة دائماً
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // تحديد الأرقام المراد استخدامها (1 و 0)
+        const binaryChars = "1010101010"; 
+        const fontSize = 16;
+        
+        // حساب عدد الأعمدة بناءً على عرض الشاشة
+        let columns = canvas.width / fontSize;
+
+        // مصفوفة لتتبع موقع السقوط الرأسي (Y) لكل عمود
+        let rainDrops = [];
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        // دالة الرسم والحركة الأساسية
+        function drawMatrix() {
+            // رسم طبقة سوداء شفافة جداً فوق الشاشة لخلق تأثير مسار تلاشي الأرقام القديمة
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // إعداد لون وحجم خط الأرقام
+            ctx.fillStyle = '#00ff00'; 
+            ctx.font = fontSize + 'px monospace';
+
+            // تكرار الرسم على كل عمود
+            for (let i = 0; i < rainDrops.length; i++) {
+                // اختيار عشوائي بين 0 أو 1
+                const text = binaryChars.charAt(Math.floor(Math.random() * binaryChars.length));
+                
+                // تحديد مكان طباعة الرقم الحالي
+                const x = i * fontSize;
+                const y = rainDrops[i] * fontSize;
+
+                ctx.fillText(text, x, y);
+
+                // إذا وصل الرقم لآخر الشاشة، يعود للأعلى بشكل عشوائي لخلق استمرارية لا نهائية
+                if (y > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                
+                // زيادة قيمة السقوط للأسفل
+                rainDrops[i]++;
+            }
+        }
+
+        // تحديث وتكرار الدالة كل 30 ملي ثانية لسرعة هكر مثالية
+        setInterval(drawMatrix, 30);
+    </script>
+
+</body>
+</html>
