@@ -1,126 +1,205 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacker Matrix Terminal</title>
+    <title>Zoka - منصة السحوبات والجوائز</title>
     <style>
-        /* إعدادات الصفحة الأساسية لتغطية الشاشة بالكامل باللون الأسود */
-        body, html {
+        :root {
+            --bg-color: #0b0713;
+            --card-bg: #140e24;
+            --primary: #8a2be2;
+            --primary-hover: #9d4edd;
+            --text-color: #ffffff;
+            --muted-text: #a092b8;
+            --border-color: #2c1e47;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at top left, #251147 0%, transparent 60%);
+            color: var(--text-color);
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000000;
-            font-family: 'Courier New', Courier, monospace;
+            padding: 40px 20px;
         }
 
-        /* لوحة الرسم (Canvas) الخاصة بالأرقام المتساقطة خلف النص */
-        canvas {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1; /* جعلها في الخلفية */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        /* حاوية النص الأخضر في المنتصف */
-        .message-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2; /* جعلها فوق الأرقام المتساقطة */
+        header {
             text-align: center;
-            padding: 30px 50px;
-            background-color: rgba(0, 0, 0, 0.85); /* خلفية سوداء شفافة لتوضيح النص */
-            border: 3px solid #00ff00;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+            margin-bottom: 50px;
         }
 
-        /* ستايل نص النجاح وتأثير التوهج الرقمي */
-        .success-text {
-            color: #00ff00;
-            font-size: 3.5rem;
+        header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #fff, var(--primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--muted-text);
+            font-size: 16px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #fff;
+            border-right: 4px solid var(--primary);
+            padding-right: 15px;
+            margin: 40px 0 20px 0;
             font-weight: bold;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px #00ff00, 0 0 25px #00ff00;
-            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.3);
+        }
+
+        /* تنسيق الأيقونات والصور لتبدو فاخرة */
+        .card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            object-fit: contain;
+            filter: drop-shadow(0px 4px 10px rgba(138, 43, 226, 0.3));
+        }
+
+        .card h3 {
+            font-size: 26px;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .card p {
+            color: var(--muted-text);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .btn-draw {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: #fff;
+            padding: 12px 25px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-draw:hover {
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
         }
     </style>
 </head>
 <body>
 
-    <!-- خلفية الأرقام المتساقطة (الماتريكس) -->
-    <canvas id="matrixCanvas"></canvas>
+<div class="container">
+    <header>
+        <h1>سحوبات منصة ZOKA الفاخرة</h1>
+        <p>انضم الآن لأقوى السحوبات العالمية الحصرية مجاناً</p>
+    </header>
 
-    <!-- الرسالة التي في المنتصف -->
-    <div class="message-container">
-        <h1 class="success-text">Task Success</h1>
+    <!-- قسم روبوكس (Roblox) -->
+    <div class="section-title">سحوبات روبوكس (Roblox)</div>
+    <div class="grid">
+        <div class="card">
+            <!-- شعار روبلوكس الفاخر المضيء -->
+            <img src="https://img.icons8.com/ios-filled/100/8a2be2/roblox.png" alt="Roblox">
+            <h3>400 Robux</h3>
+            <p>سحب عشوائي أسبوعي لجميع المشتركين</p>
+            <button class="btn-draw">دخول السحب</button>
+        </div>
+        <div class="card">
+            <img src="https://img.icons8.com/ios-filled/100/8a2be2/roblox.png" alt="Roblox">
+            <h3>800 Robux</h3>
+            <p>سحب عشوائي أسبوعي لجميع المشتركين</p>
+            <button class="btn-draw">دخول السحب</button>
+        </div>
+        <div class="card">
+            <img src="https://img.icons8.com/ios-filled/100/8a2be2/roblox.png" alt="Roblox">
+            <h3>1500 Robux</h3>
+            <p>السحب الكهري الخاص بالجائزة الكبرى</p>
+            <button class="btn-draw">دخول السحب</button>
+        </div>
     </div>
 
-    <script>
-        // تفعيل كود الماتريكس لتساقط الأرقام بشكل لا نهائي
-        const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
+    <!-- قسم بلايستيشن المتعدد (PlayStation Sony) -->
+    <div class="section-title">بطاقات بلايستيشن (Sony PlayStation)</div>
+    <div class="grid">
+        <div class="card">
+            <!-- شعار بلايستيشن الفاخر -->
+            <img src="https://img.icons8.com/ios-filled/100/8a2be2/playstation.png" alt="PlayStation">
+            <h3>Sony Card 10$</h3>
+            <p>سحب فوري على بطاقات ستور بلايستيشن</p>
+            <button class="btn-draw">دخول السحب</button>
+        </div>
+        <div class="card">
+            <img src="https://img.icons8.com/ios-filled/100/8a2be2/playstation.png" alt="PlayStation">
+            <h3>Sony Card 50$</h3>
+            <p>السحب المتوسط الأسبوعي لحسابات الستور</p>
+            <button class="btn-draw">دخول السحب</button>
+        </div>
+        <div class="card">
+            <img src="https://img.icons8.com/ios-filled/100/8a2be2/playstation.png" alt="PlayStation">
+            <h3>Sony Card 100$</h3>
+            <p>سحب الجائزة الفاخرة الكبرى لبطاقات سوني</p>
+            <button class="btn-draw">دخول السحب</button>
+        </div>
+    </div>
 
-        // ضبط حجم لوحة الرسم لتناسب حجم الشاشة دائماً
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+    <!-- قسم ستيم (Steam) -->
+    <div class="section-title">بطاقات ستيم (Steam PC)</div>
+    <div class="grid">
+        <div class="card">
+            <!-- شعار منصة ستيم للألعاب -->
+            <img src="https://img.icons8.com/ios-filled/100/8a2be2/steam.png" alt="Steam">
+            <h3>Steam Cards</h3>
+            <p>سحوبات عشوائية على أرصدة محفظة ستيم للكمبيوتر</p>
+            <button class="btn-draw">دخول السحب</button>
+        </div>
+    </div>
+</div>
 
-        // تحديد الأرقام المراد استخدامها (1 و 0)
-        const binaryChars = "1010101010"; 
-        const fontSize = 16;
-        
-        // حساب عدد الأعمدة بناءً على عرض الشاشة
-        let columns = canvas.width / fontSize;
-
-        // مصفوفة لتتبع موقع السقوط الرأسي (Y) لكل عمود
-        let rainDrops = [];
-        for (let x = 0; x < columns; x++) {
-            rainDrops[x] = 1;
-        }
-
-        // دالة الرسم والحركة الأساسية
-        function drawMatrix() {
-            // رسم طبقة سوداء شفافة جداً فوق الشاشة لخلق تأثير مسار تلاشي الأرقام القديمة
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // إعداد لون وحجم خط الأرقام
-            ctx.fillStyle = '#00ff00'; 
-            ctx.font = fontSize + 'px monospace';
-
-            // تكرار الرسم على كل عمود
-            for (let i = 0; i < rainDrops.length; i++) {
-                // اختيار عشوائي بين 0 أو 1
-                const text = binaryChars.charAt(Math.floor(Math.random() * binaryChars.length));
-                
-                // تحديد مكان طباعة الرقم الحالي
-                const x = i * fontSize;
-                const y = rainDrops[i] * fontSize;
-
-                ctx.fillText(text, x, y);
-
-                // إذا وصل الرقم لآخر الشاشة، يعود للأعلى بشكل عشوائي لخلق استمرارية لا نهائية
-                if (y > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
-                }
-                
-                // زيادة قيمة السقوط للأسفل
-                rainDrops[i]++;
-            }
-        }
-
-        // تحديث وتكرار الدالة كل 30 ملي ثانية لسرعة هكر مثالية
-        setInterval(drawMatrix, 30);
-    </script>
+<script>
+    // تفعيل تفاعل أزرار الاشتراك داخل المنصة
+    document.querySelectorAll('.btn-draw').forEach(button => {
+        button.addEventListener('click', function() {
+            this.innerText = "تم الاشتراك بالسحب!";
+            this.style.background = "#00c853";
+            this.style.borderColor = "#00c853";
+            this.style.boxShadow = "0 0 15px #00c853";
+            this.disabled = true;
+        });
+    });
+</script>
 
 </body>
 </html>
